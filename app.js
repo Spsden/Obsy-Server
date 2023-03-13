@@ -8,7 +8,7 @@ const tasks = require("./routes/tasks");
 const notFound = require("./middleware/not_found");
 const errorHandler = require("./middleware/error_handler");
 
-///middlewared
+///middleware
 app.use(express.json());
 app.use("/api/v1/auth/", auth);
 app.use("/api/v1/obsy/", tasks);
@@ -27,6 +27,10 @@ const start = async () => {
 };
 
 start();
+
+
+
+
 
 //Designed ports
 

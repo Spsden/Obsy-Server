@@ -1,37 +1,39 @@
 const { StatusCodes } = require("http-status-codes");
 const BadRequestError = require("../errors/bad_request");
+const UnAuthenticatedRequest = require("../errors/unauthenticated_request");
+const { findOne } = require("../models/user");
 const User = require("../models/user");
 
-
 const register = async (req, res) => {
-  //const { username, email, password } = req.body;
-  // console.log(username);
-  // console.log(email);
-
-  // if (!username || !email || !password) {
-  //   console.log("yo");
-  //   throw new BadRequestError("Provide data in all fields");
-  // }
- 
-  
   const user = await User.create({ ...req.body });
-  const token = user.createJWT()
-  console.log("reached here")
-  res.status(StatusCodes.CREATED).json({ user:{name:user.username},token });
+  const token = user.createJWT();
+
+  res
+    .status(StatusCodes.CREATED)
+    .json({ user: { name: user.username }, token });
 };
 
 const login = async (req, res) => {
+  const { email, password } = req.body;
+  console.debug(email);
 
-  const {username,password}  = req.body;
-
-  if(!username || !password){
-    console.log("some error")
-    throw new BadRequestError('Please provide email and password')
+  if (!email || !password) {
+    throw new BadRequestError("please provide email and pw");
   }
 
-  
-  res.send(username);
+  const user = await User.findOne({ email });
 
+  if (!user) {
+    throw new UnAuthenticatedRequest("Invalid Credentials");
+  }
+  const isPasswordCorrect  = await user.comparePassword(password);
+  if(!isPasswordCorrect){
+    throw new UnAuthenticatedRequest("Invalid Credentials")
+  }
+
+  const token = user.createJWT();
+
+  res.status(StatusCodes.OK).json({ user: { name: user.username }, token });
 };
 
 module.exports = {
