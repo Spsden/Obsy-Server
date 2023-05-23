@@ -8,6 +8,7 @@ const errorHandler = (err, req, res, next) => {
     msg:err.message || 'Something went wrong'
 
   }
+  console.log(customError)
 
   // if(err.nam)
   // if (err instanceof CustomApiError) {

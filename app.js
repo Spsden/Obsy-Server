@@ -7,11 +7,12 @@ const auth = require("./routes/auth");
 const tasks = require("./routes/tasks");
 const notFound = require("./middleware/not_found");
 const errorHandler = require("./middleware/error_handler");
+const authenticateUser = require("./middleware/authentication");
 
 ///middleware
 app.use(express.json());
 app.use("/api/v1/auth/", auth);
-app.use("/api/v1/obsy/", tasks);
+app.use("/api/v1/obsy/", authenticateUser, tasks);
 app.use(notFound);
 app.use(errorHandler);
 
