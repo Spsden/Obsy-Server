@@ -12,7 +12,7 @@ const authenticateUser = require("./middleware/authentication");
 ///middleware
 app.use(express.json());
 app.use("/api/v1/auth/", auth);
-app.use("/api/v1/obsy/", authenticateUser, tasks);
+app.use("/api/v1/obsy/",authenticateUser, tasks);
 app.use(notFound);
 app.use(errorHandler);
 
