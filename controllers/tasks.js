@@ -15,16 +15,21 @@ const getAllTasks = async (req, res) => {
 const createTask = async (req, res) => {
   req.body.createdBy = req.user.userId
   const task = await Task.create(req.body);
-  res.status(201).json({ task });
+  res.status(StatusCodes.CREATED).json({ task });
 };
 
 const getTask = async (req, res) => {
-  const { id: taskID } = req.params;
-  const task = await Task.findOne({ _id: taskID });
+
+  const {
+    user: { userId },
+    params: { id: taskID },
+  } = req
+ // const { id: taskID } = req.params;
+  const task = await Task.findOne({ _id: taskID,createdBy:userId });
   if (!task) {
-    throw new DataNotFound(`No task with id {id}`);
+    throw new DataNotFound(`No task with id ${id}`);
   }
-  res.status(200).json({ task });
+  res.status(StatusCodes.OK).json({ task });
 };
 
 const updateTask = async (req, res) => {
