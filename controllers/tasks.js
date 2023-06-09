@@ -47,7 +47,7 @@ const updateTask = async (req, res) => {
       }
     }
   }
-  console.log("yaha aya")
+ // console.log("yaha aya")
 
  
   //console.log(req.body)
@@ -68,14 +68,17 @@ const updateTask = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-    const { id: taskId } = req.params;
-    const task = await Task.findOneAndDelete({ _id: taskId });
+    const {
+      user: { userId },
+      params: { id: taskID },
+    } = req;
+    const task = await Task.findByIdAndRemove({ _id: taskID,createdBy: userId, });
 
     if (!task) {
       throw new DataNotFound(`No task with id : ${taskId}`);
     }
 
-    res.status(200).json({ task });
+    res.status(StatusCodes.OK).json({ task });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
