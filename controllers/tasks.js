@@ -9,23 +9,22 @@ const getAllTasks = async (req, res) => {
     "createdAt"
   );
 
-  res.status(StatusCodes.OK).json({ tasks,count:tasks.length });
+  res.status(StatusCodes.OK).json({ tasks, count: tasks.length });
 };
 
 const createTask = async (req, res) => {
-  req.body.createdBy = req.user.userId
+  req.body.createdBy = req.user.userId;
   const task = await Task.create(req.body);
   res.status(StatusCodes.CREATED).json({ task });
 };
 
 const getTask = async (req, res) => {
-
   const {
     user: { userId },
     params: { id: taskID },
-  } = req
- // const { id: taskID } = req.params;
-  const task = await Task.findOne({ _id: taskID,createdBy:userId });
+  } = req;
+  // const { id: taskID } = req.params;
+  const task = await Task.findOne({ _id: taskID, createdBy: userId });
   if (!task) {
     throw new DataNotFound(`No task with id ${id}`);
   }
@@ -33,16 +32,35 @@ const getTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
+ 
+  const {
+    body: {body},
+    user: { userId },
+    params: { id: taskId },
+  } = req;
+  console.log(body)
+
+  for (let key in body) {
+    if (body.hasOwnProperty(key)) {
+      if (body[key] === '') {
+        throw new BadRequestError(` ${key} field(s) cannot be empty`);
+      }
+    }
+  }
+  console.log("yaha aya")
+
+ 
+  //console.log(req.body)
   try {
-    const { id: taskId } = req.params;
-    const task = await Task.findOneAndUpdate({ _id: taskId }, req.body, {
+   // const { id: taskId } = req.params;
+    const task = await Task.findByIdAndUpdate({ _id: taskId,createdBy:userId }, req.body, {
       new: true,
       runValidators: true,
     });
     if (!task) {
       throw new DataNotFound(`No task with ${taskId}`);
     }
-    res.status(200).json({ task });
+    res.status(StatusCodes.OK).json({ task });
   } catch (error) {
     res.status(500).json({ msg: error });
   }
