@@ -33,7 +33,13 @@ const ObsyTaskSchema = new mongoose.Schema({
     type: String,
     required: [true, "xPath required"],
   },
+  createdBy:{
+    type:mongoose.Types.ObjectId,
+    ref:'User',
+    required:[true,'Please provider user']
+
+  },
   date: Date,
-});
+},{timestamps:true});
 
 module.exports = mongoose.model("Task", ObsyTaskSchema);

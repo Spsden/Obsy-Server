@@ -1,14 +1,19 @@
 const Task = require("../models/task");
 const asyncWrapper = require("../middleware/async_wrapper");
 const DataNotFound = require("../errors/data_not_found");
+const task = require("../models/task");
+const { StatusCodes } = require("http-status-codes");
 
 const getAllTasks = async (req, res) => {
-  const tasks = await Task.find({});
+  const tasks = await Task.find({ createdBy: req.user.userId }).sort(
+    "createdAt"
+  );
 
-  res.status(200).json({ tasks });
+  res.status(StatusCodes.OK).json({ tasks,count:tasks.length });
 };
 
 const createTask = async (req, res) => {
+  req.body.createdBy = req.user.userId
   const task = await Task.create(req.body);
   res.status(201).json({ task });
 };
