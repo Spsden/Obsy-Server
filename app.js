@@ -9,8 +9,26 @@ const notFound = require("./middleware/not_found");
 const errorHandler = require("./middleware/error_handler");
 const authenticateUser = require("./middleware/authentication");
 
-///middleware
+//security packages
+const cors = require('cors');
+const helmet = require('helmet');
+const xss = require('xss-clean');
+const rateLimiter = require('express-rate-limit');
+
+///middlewares
+
+app.set('trust proxy', 1)
+app.use(rateLimiter({
+	windowMs: 15 * 60 * 1000, 
+	max: 100, 
+	standardHeaders: true, 
+	legacyHeaders: false, 
+}))
 app.use(express.json());
+app.use(helmet())
+app.use(cors())
+app.use(xss())
+
 app.use("/api/v1/auth/", auth);
 app.use("/api/v1/obsy/",authenticateUser, tasks);
 app.use(notFound);
@@ -33,8 +51,7 @@ start();
 
 
 
-//Designed ports
-
+///Designed ports
 //app.get('/api/v1/tasks') =get all tasks
 //app.post('api/v1/tasks') = create a new task
 //app.get('api/v1/tasks/:id') = get a single task
@@ -42,4 +59,3 @@ start();
 //app.patch('api/v1/tasks/:id') = update a single task
 
 
-//rate limiter add ons 

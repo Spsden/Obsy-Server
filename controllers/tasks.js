@@ -32,31 +32,33 @@ const getTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
- 
   const {
-    body: {body},
+    body: { body },
     user: { userId },
     params: { id: taskId },
   } = req;
-  console.log(body)
+  console.log(body);
 
   for (let key in body) {
     if (body.hasOwnProperty(key)) {
-      if (body[key] === '') {
+      if (body[key] === "") {
         throw new BadRequestError(` ${key} field(s) cannot be empty`);
       }
     }
   }
- // console.log("yaha aya")
+  // console.log("yaha aya")
 
- 
   //console.log(req.body)
   try {
-   // const { id: taskId } = req.params;
-    const task = await Task.findByIdAndUpdate({ _id: taskId,createdBy:userId }, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    // const { id: taskId } = req.params;
+    const task = await Task.findByIdAndUpdate(
+      { _id: taskId, createdBy: userId },
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     if (!task) {
       throw new DataNotFound(`No task with ${taskId}`);
     }
@@ -72,7 +74,10 @@ const deleteTask = async (req, res) => {
       user: { userId },
       params: { id: taskID },
     } = req;
-    const task = await Task.findByIdAndRemove({ _id: taskID,createdBy: userId, });
+    const task = await Task.findByIdAndRemove({
+      _id: taskID,
+      createdBy: userId,
+    });
 
     if (!task) {
       throw new DataNotFound(`No task with id : ${taskId}`);
