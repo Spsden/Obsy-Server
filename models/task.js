@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ObsyTaskSchema = new mongoose.Schema({
+ const ObsyTaskSchema = new mongoose.Schema({
   title: {
     type: String,
     required: [true, "title required"],
@@ -41,5 +41,7 @@ const ObsyTaskSchema = new mongoose.Schema({
   },
   date: Date,
 },{timestamps:true});
+
+
 
 module.exports = mongoose.model("Task", ObsyTaskSchema);
