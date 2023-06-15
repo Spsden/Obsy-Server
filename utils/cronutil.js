@@ -7,20 +7,12 @@ function CronStarter(myCollection) {
       return;
     }
 
-    Array.from(items).forEach(task => {
-        const {
-            interval ,
-            durationType ,
-            createdBy,
-            url,
-            xpath
-    
-        } = task
+    Array.from(items).forEach((task) => {
+      const { interval, durationType, createdBy, url, xpath } = task;
 
-
-        console.log("hello gello hello hello")
-        console.log(task)
-    })
+      console.log("hello gello hello hello");
+      console.log(task);
+    });
 
     // items.array.forEach(task => {
     //     const {
@@ -29,58 +21,41 @@ function CronStarter(myCollection) {
     //         createdBy,
     //         url,
     //         xpath
-    
+
     //     } = task
     //     console.log("hello gello hello hello")
     //     console.log(task)
-        
+
     // });
-
-
-
-
 
     // Print the items
     console.log("Items in the collection:");
-    
   });
 }
 
-const runCronTask =(task) => {
+const runCronTask = (task) => {
+  const { interval, durationType, createdBy, url, xpath } = task;
+  const cronPattern = cronPatternGenerator(durationType, interval);
 
-    const {
-        interval ,
-        durationType ,
-        createdBy,
-        url,
-        xpath
+  var job = new cron.CronJob();
+};
 
-    } = task
-    const cronPattern = 
+const cronPatternGenerator = (durationType, duration) => {
+  let cronPattern = "*/1 * * * *";
 
-    var job = new cron.CronJob(
-
-    )
-
-
-
-}
-
-const cronPatternGenerator = (durationType, duration)=> {
-    let cronPattern = '';
-
-    if(durationType === 'hour'){
-
-    }
-    if(durationType === 'mins'){
-
-    }
-    if(durationType === 'secs'){
-
-    }
-    if(durationType === 'days'){
-        
-    }
-}
+  if (durationType === "hour") {
+    cronPattern = `0 */${duration} * * *`;
+  }
+  if (durationType === "mins") {
+    cronPattern = `*/${duration} * * * *`;
+  }
+  if (durationType === "secs") {
+    cronPattern = `*/${duration} * * * * *`;
+  }
+  if (durationType === "days") {
+    cronPattern = `0 0 */${duration} * *`;
+  }
+  return cronPattern;
+};
 
 module.exports = CronStarter;
