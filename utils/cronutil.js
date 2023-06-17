@@ -1,4 +1,4 @@
-const cron = require("cron");
+const CronJob = require("cron").CronJob;
 
 function CronStarter(myCollection) {
   myCollection.find({}, (err, items) => {
@@ -33,12 +33,29 @@ function CronStarter(myCollection) {
   });
 }
 
-const runCronTask = (task) => {
-  const { interval, durationType, createdBy, url, xpath } = task;
+function runCronTask(task) {
+  console.log(task);
+  const { interval, durationType, createdBy, url, xPath } = task;
   const cronPattern = cronPatternGenerator(durationType, interval);
+  console.log(xPath);
+  console.log(cronPattern);
 
-  var job = new cron.CronJob();
-};
+  var job = new CronJob(
+    cronPattern,
+    function () {
+      console.log(xPath);
+      console.log(url);
+    },
+    null,
+    true,
+    "America/Los_Angeles"
+  );
+}
+
+// function observe(xpath, previous) {
+
+//   console.log(previous)
+// }
 
 const cronPatternGenerator = (durationType, duration) => {
   let cronPattern = "*/1 * * * *";
@@ -58,4 +75,4 @@ const cronPatternGenerator = (durationType, duration) => {
   return cronPattern;
 };
 
-module.exports = CronStarter;
+module.exports = { CronStarter, runCronTask };

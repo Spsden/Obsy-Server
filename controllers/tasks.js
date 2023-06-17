@@ -3,6 +3,7 @@ const asyncWrapper = require("../middleware/async_wrapper");
 const DataNotFound = require("../errors/data_not_found");
 const task = require("../models/task");
 const { StatusCodes } = require("http-status-codes");
+const {runCronTask} = require("../utils/cronutil")
 
 const getAllTasks = async (req, res) => {
   const tasks = await Task.find({ createdBy: req.user.userId }).sort(
@@ -11,12 +12,24 @@ const getAllTasks = async (req, res) => {
 
   res.status(StatusCodes.OK).json({ tasks, count: tasks.length });
 };
+function haha(task) {
+  console.log(task)
+  
+}
 
 const createTask = async (req, res) => {
   req.body.createdBy = req.user.userId;
   const task = await Task.create(req.body);
 
-  
+  try {
+   // haha(task);
+    runCronTask(task);
+    
+    
+  } catch (e) {
+    console.log(e)
+    
+  }
   res.status(StatusCodes.CREATED).json({ task });
 };
 

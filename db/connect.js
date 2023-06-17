@@ -15,20 +15,20 @@ const connectDB = (url) => {
       useUnifiedTopology: true,
     })
 
-    .then(() => {
-      CronStarter(AllTaskCollection);
-     // CronStarter(AllUserCollection);
+    // .then(() => {
+    //   CronStarter(AllTaskCollection);
+    //  // CronStarter(AllUserCollection);
 
-      console.log("connected to db");
-      mongoose.connection.db.listCollections().toArray((err, collections) => {
-        collections.forEach((collection) => {
-          console.log(collection.name);
-        });
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+    //   console.log("connected to db");
+    //   mongoose.connection.db.listCollections().toArray((err, collections) => {
+    //     collections.forEach((collection) => {
+    //       console.log(collection.name);
+    //     });
+    //   });
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
 };
 
 //console.log(connectDB.getCollectionNames())
