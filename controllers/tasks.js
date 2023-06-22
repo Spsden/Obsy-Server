@@ -21,15 +21,15 @@ const createTask = async (req, res) => {
   req.body.createdBy = req.user.userId;
   const task = await Task.create(req.body);
 
-  try {
-   // haha(task);
-    runCronTask(task);
+  // try {
+  //  // haha(task);
+  //   runCronTask(task);
     
     
-  } catch (e) {
-    console.log(e)
+  // } catch (e) {
+  //   console.log(e)
     
-  }
+  // }
   res.status(StatusCodes.CREATED).json({ task });
 };
 
