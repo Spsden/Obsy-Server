@@ -1,6 +1,13 @@
 const CronJob = require("cron").CronJob;
 
-function CronStarter(myCollection) {
+function cronStarter(myCollection) {
+  console.log(myCollection.name);
+  console.log("ithe hai ithe")
+  // Array.from(myCollection).forEach(element => {
+    
+  //   console.log(element)
+  // });
+
   myCollection.find({}, (err, items) => {
     if (err) {
       console.error(err);
@@ -8,29 +15,15 @@ function CronStarter(myCollection) {
     }
 
     Array.from(items).forEach((task) => {
-      const { interval, durationType, createdBy, url, xpath } = task;
+      //const { interval, durationType, createdBy, url, xpath } = task;
 
       console.log("hello gello hello hello");
+      runCronTask(task)
       console.log(task);
     });
-
-    // items.array.forEach(task => {
-    //     const {
-    //         interval ,
-    //         durationType ,
-    //         createdBy,
-    //         url,
-    //         xpath
-
-    //     } = task
-    //     console.log("hello gello hello hello")
-    //     console.log(task)
-
-    // });
-
-    // Print the items
-    console.log("Items in the collection:");
-  });
+  }
+  )
+ 
 }
 
 function runCronTask(task) {
@@ -75,4 +68,4 @@ const cronPatternGenerator = (durationType, duration) => {
   return cronPattern;
 };
 
-module.exports = { CronStarter, runCronTask };
+module.exports = { cronStarter, runCronTask };

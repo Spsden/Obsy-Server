@@ -3,7 +3,7 @@ const asyncWrapper = require("../middleware/async_wrapper");
 const DataNotFound = require("../errors/data_not_found");
 const task = require("../models/task");
 const { StatusCodes } = require("http-status-codes");
-const {runCronTask} = require("../utils/cronutil")
+
 
 const getAllTasks = async (req, res) => {
   const tasks = await Task.find({ createdBy: req.user.userId }).sort(

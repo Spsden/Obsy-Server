@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { collection } = require("../models/user");
 const { ObsyTaskSchema } = require("../models/task");
-const CronStarter = require("../utils/cronutil");
+const {cronStarter}  = require('../utils/cronutil')
 
 const AllTaskCollection = mongoose.model("Task", ObsyTaskSchema);
 const AllUserCollection = mongoose.model("User");
@@ -15,20 +15,25 @@ const connectDB = (url) => {
       useUnifiedTopology: true,
     })
 
-    // .then(() => {
-    //   CronStarter(AllTaskCollection);
-    //  // CronStarter(AllUserCollection);
+    .then(() => {
+      console.log("connected to db");
+      console.log("starting scan of all tasks")
+      cronStarter(AllTaskCollection)
+    
+      // mongoose.connection.db.listCollections().toArray((err, collections) => {
+      //   collections.forEach((collection) => {
+      //     console.log(collection.name);
 
-    //   console.log("connected to db");
-    //   mongoose.connection.db.listCollections().toArray((err, collections) => {
-    //     collections.forEach((collection) => {
-    //       console.log(collection.name);
-    //     });
-    //   });
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
+      //     if(collection.name == 'tasks'){
+      //       console.log("entering asks collection")
+      //     //  cronStarter(collection)
+      //     }
+      //   });
+      // });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 //console.log(connectDB.getCollectionNames())
