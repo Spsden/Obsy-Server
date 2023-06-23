@@ -18,7 +18,7 @@ function cronStarter(myCollection) {
       //const { interval, durationType, createdBy, url, xpath } = task;
 
       console.log("hello gello hello hello");
-      runCronTask(task)
+     // runCronTask(task)
       console.log(task);
     });
   }

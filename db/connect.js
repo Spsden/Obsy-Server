@@ -5,6 +5,7 @@ const {cronStarter}  = require('../utils/cronutil')
 
 const AllTaskCollection = mongoose.model("Task", ObsyTaskSchema);
 const AllUserCollection = mongoose.model("User");
+const changeStream = AllTaskCollection.watch();
 
 mongoose.set("strictQuery", true);
 const connectDB = (url) => {
@@ -18,7 +19,14 @@ const connectDB = (url) => {
     .then(() => {
       console.log("connected to db");
       console.log("starting scan of all tasks")
-      cronStarter(AllTaskCollection)
+    //  cronStarter(AllTaskCollection)
+
+    changeStream.on('change', (change) => {
+      console.log('Change event:', change);
+      // Handle the change event here
+    });
+
+    console.log('Listening for changes...');
     
       // mongoose.connection.db.listCollections().toArray((err, collections) => {
       //   collections.forEach((collection) => {
