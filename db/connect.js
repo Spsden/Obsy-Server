@@ -19,11 +19,12 @@ const connectDB = (url) => {
     .then(() => {
       console.log("connected to db");
       console.log("starting scan of all tasks")
-    //  cronStarter(AllTaskCollection)
+        cronStarter(AllTaskCollection)
+    
 
     changeStream.on('change', (change) => {
       console.log('Change event:', change);
-      // Handle the change event here
+        cronStarter(AllTaskCollection)
     });
 
     console.log('Listening for changes...');
@@ -36,6 +37,8 @@ const connectDB = (url) => {
       //       console.log("entering asks collection")
       //     //  cronStarter(collection)
       //     }
+
+
       //   });
       // });
     })

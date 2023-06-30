@@ -18,8 +18,8 @@ function cronStarter(myCollection) {
       //const { interval, durationType, createdBy, url, xpath } = task;
 
       console.log("hello gello hello hello");
-     // runCronTask(task)
-      console.log(task);
+      runCronTask(task)
+      //console.log(task);
     });
   }
   )
@@ -36,8 +36,7 @@ function runCronTask(task) {
   var job = new CronJob(
     cronPattern,
     function () {
-      console.log(xPath);
-      console.log(url);
+      observe(xPath,url)
     },
     null,
     true,
@@ -45,10 +44,10 @@ function runCronTask(task) {
   );
 }
 
-// function observe(xpath, previous) {
+function runXpathJob(xpath, previous) {
 
-//   console.log(previous)
-// }
+  console.log(previous)
+}
 
 const cronPatternGenerator = (durationType, duration) => {
   let cronPattern = "*/1 * * * *";
