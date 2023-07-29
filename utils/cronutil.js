@@ -67,13 +67,13 @@ async function getXpathContent(xPath, url) {
     // Get all p elements using page.$x
     console.log(element);
     console.log("above daa");
-    let all_p_elements = await page.$x("//p");
+    //let all_p_elements = await page.$x("//p");
 
     // Get the textContent of the h1 element
     let h1_value = await page.evaluate((el) => el.textContent, element[0]);
 
     // The total number of p elements on the page
-    let p_total = await page.evaluate((el) => el.length, all_p_elements);
+    //let p_total = await page.evaluate((el) => el.length, all_p_elements);
 
     console.log(h1_value);
 
